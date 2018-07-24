@@ -19,8 +19,6 @@ class App extends Component {
 
   // https://stackoverflow.com/questions/35905988/react-js-how-to-append-a-component-on-clicks
 
-
-
   click() {
     if(this.state.started === false) {
       this.setState({
@@ -39,19 +37,7 @@ class App extends Component {
     }
 
   }
-
-  reset() {
-    clearInterval(this.increment)
-    this.setState({
-      seconds: 0
-    })
-  }
-
-  pause() {
-    clearInterval(this.increment)
-  }
-
-
+  
   componentDidUpdate() {
     if(this.state.seconds === 60) {
       this.setState({
@@ -74,23 +60,25 @@ class App extends Component {
   }
 }
 
+
+
 function Split(props) {
   if(props.seconds < 10) {
     return (<div>
-      <button onClick={test(props.number)}>Hello, {props.minutes}:0{props.seconds}</button>
+      <div onClick={(e) => test(e.target)} minutes={props.minutes}>Split {props.number} - {props.minutes}:0{props.seconds}</div>
       <br/>
     </div>)
   }
   else {
     return (<div>
-      <button onClick={test(props.number)}>Hello, {props.minutes}:{props.seconds}</button>
+      <div onClick={(e) => test(e.target)} minutes={props.minutes}>Split {props.number} - {props.minutes}:{props.seconds}</div>
       <br/>
     </div>)
   }
 }
 
-function test(input) {
-  console.log(input)
+function test(props) {
+  console.log(props)
 }
 
 export default App;
