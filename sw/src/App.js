@@ -1,26 +1,41 @@
 import React, { Component } from 'react';
 import './App.css';
+import Split from './Split'
 
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super()
     this.state = {
-      seconds: 55,
+      seconds: 0,
       minutes: 0,
       started: false,
       splitDivs: [],
-      splitMins: [],
-      splitSecs: []
+      splitTimes: []
     }
-    this.increment = null;
     this.click = this.click.bind(this);
     this.splitClick = this.splitClick.bind(this);
   }
 
-  // https://stackoverflow.com/questions/35905988/react-js-how-to-append-a-component-on-clicks
+  splitClick(minutes, seconds) {
+    // splitData is compared to the splitTimes array in state to find the clicked split,
+    // and then remove it and all that follow
+    // after removal, sets current seconds and minutes to be equal to the split that was clicked
+    let splitData = minutes+":"+seconds
+    let tempTimesArray = this.state.splitTimes.slice(0, this.state.splitTimes.indexOf(splitData) + 1)
+    let tempDivsArray = this.state.splitDivs.slice(0, this.state.splitTimes.indexOf(splitData) + 1)
+    console.log(tempTimesArray)
+    console.log(tempDivsArray)
+    this.setState({
+      splitDivs: tempDivsArray,
+      splitTimes: tempTimesArray,
+      seconds: seconds,
+      minutes: minutes
+    })
+  }
 
   click() {
+    // only start counter on first click
     if(this.state.started === false) {
       this.setState({
         started: true
@@ -31,24 +46,23 @@ class App extends Component {
         })
       , 1000);
     }
+    // for all other clicks, create a Split component as necessary
     else {
-      this.setState({
-        // splits: this.state.splits.concat(<Split seconds={this.state.seconds} minutes={this.state.minutes} key={this.state.splits.length + 1} number={this.state.splits.length + 1}/>)
-        splitDivs: this.state.splitDivs.concat(<div onClick={(e) => this.splitClick(e)} id={this.state.splitDivs.length} key={this.state.splitDivs.length}>{this.state.minutes}:{this.state.seconds}</div>),
-        splitMins: this.state.splitMins.concat(this.state.minutes),
-        splitSecs: this.state.splitSecs.concat(this.state.seconds)
-      })
+      let tempArray = [(this.state.minutes+":"+this.state.seconds)]
+      // ensures that splits are unique
+      if(this.state.splitTimes.indexOf(tempArray[0]) === -1) {
+        // create Split component with data required to render and track
+        // keep track of splitTimes for each Split component in separate array, which will be used to find the correct splits for removal purposes
+        this.setState({
+          splitDivs: this.state.splitDivs.concat(<Split callback={this.splitClick} minutes={this.state.minutes} seconds={this.state.seconds}/>),
+          splitTimes: this.state.splitTimes.concat(tempArray)
+        })
+      }
     }
 
   }
 
-  splitClick(e) {
-    console.log(this.state.splitMins[e.target.id] + ":" + this.state.splitSecs[e.target.id])
-    let newList = this.state.splitDivs.splice(e.target.id,1);
-    this.setState({splitDivs:newList})
-
-  }
-
+  // code to convert seconds to minutes as required
   componentDidUpdate() {
     if(this.state.seconds === 60) {
       this.setState({
@@ -65,31 +79,13 @@ class App extends Component {
         <button onClick={this.click}>CLICK!</button>
         <br/>
         <br/>
-        {this.state.splitDivs}
+        <ul>
+          {this.state.splitDivs}
+        </ul>
       </div>
     );
   }
 }
 
-
-
-function Split(props) {
-  if(props.seconds < 10) {
-    return (<div>
-      <div onClick={(e) => test(e.target)} minutes={props.minutes}>Split {props.number} - {props.minutes}:0{props.seconds}</div>
-      <br/>
-    </div>)
-  }
-  else {
-    return (<div>
-      <div onClick={(e) => test(e.target)} minutes={props.minutes}>Split {props.number} - {props.minutes}:{props.seconds}</div>
-      <br/>
-    </div>)
-  }
-}
-
-function test(props) {
-  console.log(props)
-}
 
 export default App;
