@@ -11,7 +11,8 @@ class App extends Component {
       minutes: 0,
       started: false,
       splitDivs: [],
-      splitTimes: []
+      splitTimes: [],
+      keyCounter: 0
     }
     this.click = this.click.bind(this);
     this.splitClick = this.splitClick.bind(this);
@@ -54,8 +55,10 @@ class App extends Component {
         // create Split component with data required to render and track
         // keep track of splitTimes for each Split component in separate array, which will be used to find the correct splits for removal purposes
         this.setState({
-          splitDivs: this.state.splitDivs.concat(<Split callback={this.splitClick} minutes={this.state.minutes} seconds={this.state.seconds}/>),
-          splitTimes: this.state.splitTimes.concat(tempArray)
+          splitDivs: this.state.splitDivs.concat(<Split callback={this.splitClick} minutes={this.state.minutes} seconds={this.state.seconds} key={this.state.keyCounter}/>),
+          splitTimes: this.state.splitTimes.concat(tempArray),
+          // simple way to ensure that all children component have a unique key
+          keyCounter: this.state.keyCounter + 1
         })
       }
     }
