@@ -1,0 +1,31 @@
+$font-style: 'Orbitron', sans-serif;
+$center: center;
+$thirty: 30px;
+$twenty: 20px;
+$none: none;
+$red: red;
+$black: black;
+
+body {
+  font-family: $font-style;
+  text-align: $center;
+}
+
+h1 {
+  margin-top: $twenty;
+  font-size: $thirty;
+}
+
+li {
+  font-size: $twenty;
+  list-style-type: $none;
+
+}
+
+.red {
+  color: $red
+}
+
+.black {
+  color: $black
+}

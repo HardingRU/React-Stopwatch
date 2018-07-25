@@ -8,7 +8,7 @@ class Split extends Component {
     super()
     this.state = {
       seconds: 0,
-      minutes: 0
+      minutes: 0,
     }
     this.sendDataToParent = this.sendDataToParent.bind(this);
   }
@@ -23,14 +23,17 @@ class Split extends Component {
 
   // leverage callback function that was passed from parent as props to send back minutes and seconds of split clicked
   sendDataToParent() {
+    this.setState({
+      color: "red"
+    })
     this.props.callback(this.state.minutes, this.state.seconds)
   }
 
 	render(){
 		return (
       this.props.seconds < 10 ?
-      <li onClick={this.sendDataToParent}>{this.props.minutes}:0{this.props.seconds}</li> :
-      <li onClick={this.sendDataToParent}>{this.props.minutes}:{this.props.seconds}</li>
+      <li className={this.state.color} onClick={this.sendDataToParent}>{this.props.minutes}:0{this.props.seconds}</li> :
+      <li className={this.state.color} onClick={this.sendDataToParent}>{this.props.minutes}:{this.props.seconds}</li>
 		)
 	}
 

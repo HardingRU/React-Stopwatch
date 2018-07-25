@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import './Reset.css'
 import './App.css';
-import Split from './Split'
+import Split from './Split';
 
 
 class App extends Component {
@@ -55,7 +56,7 @@ class App extends Component {
         // create Split component with data required to render and track
         // keep track of splitTimes for each Split component in separate array, which will be used to find the correct splits for removal purposes
         this.setState({
-          splitDivs: this.state.splitDivs.concat(<Split callback={this.splitClick} minutes={this.state.minutes} seconds={this.state.seconds} key={this.state.keyCounter}/>),
+          splitDivs: this.state.splitDivs.concat(<Split callback={this.splitClick} minutes={this.state.minutes} seconds={this.state.seconds} key={this.state.keyCounter} color={"black"}/>),
           splitTimes: this.state.splitTimes.concat(tempArray),
           // simple way to ensure that all children component have a unique key
           keyCounter: this.state.keyCounter + 1
